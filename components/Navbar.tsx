@@ -14,9 +14,21 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 
 const Navbar = () => {
+  const [input, setInput] = useState("");
+  const router = useRouter();
+
+  const searchNote = (e: any) => {
+    e.preventDefault();
+    if (input) {
+      router.push(`/search/${input}`);
+    }
+    setInput("");
+  };
+
   return (
     <>
       <nav className="flex py-3 px-7 gap-6 justify-evenly items-center">
@@ -32,10 +44,15 @@ const Navbar = () => {
         <span className="hidden md:block">
           <Heading3>Skill Street</Heading3>
         </span>
-        <Input
+        <form
           className="flex-grow md:flex-grow-0 md:w-1/3"
-          placeholder="Search Note..."
-        />
+          onSubmit={searchNote}
+        >
+          <Input
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Search Note..."
+          />
+        </form>
         <div className="flex gap-3 justify-center items-center">
           <div className="hidden md:block">
             <ThemeToggle />

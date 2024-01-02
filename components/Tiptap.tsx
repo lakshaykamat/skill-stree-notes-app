@@ -14,6 +14,8 @@ import { useToast } from "@/components/ui/use-toast";
 import { AppDispatch } from "@/app/redux/store";
 import { addNote, createNote } from "@/app/redux/note-slice";
 import { Dispatch, SetStateAction } from "react";
+import EditorMenu from "./EditorMenu";
+import { Small } from "./Typography";
 
 const MenuBar = () => {
   const { editor } = useCurrentEditor();
@@ -22,155 +24,134 @@ const MenuBar = () => {
   }
 
   return (
-    <>
-      <ToggleGroup type="multiple">
-        <ToggleGroupItem value="bold" aria-label="Toggle bold">
-          <button
-            onClick={() => editor.chain().focus().toggleBold().run()}
-            disabled={!editor.can().chain().focus().toggleBold().run()}
-            className={editor.isActive("bold") ? "is-active" : ""}
-          >
-            <Bold />
-          </button>
-        </ToggleGroupItem>
-        <ToggleGroupItem value="italic">
-          <button
-            onClick={() => editor.chain().focus().toggleItalic().run()}
-            disabled={!editor.can().chain().focus().toggleItalic().run()}
-            className={editor.isActive("italic") ? "is-active" : ""}
-          >
-            <Italic />
-          </button>
-        </ToggleGroupItem>
-      </ToggleGroup>
-      {/* <button
+    <div className="outline">
+      <button
         onClick={() => editor.chain().focus().toggleBold().run()}
         disabled={!editor.can().chain().focus().toggleBold().run()}
         className={editor.isActive("bold") ? "is-active" : ""}
       >
         bold
-      </button> 
-      //  <button
-      //   onClick={() => editor.chain().focus().toggleItalic().run()}
-      //   disabled={!editor.can().chain().focus().toggleItalic().run()}
-      //   className={editor.isActive("italic") ? "is-active" : ""}
-      // >
-      //   italic
-      // </button>
-      // <button
-      //   onClick={() => editor.chain().focus().toggleStrike().run()}
-      //   disabled={!editor.can().chain().focus().toggleStrike().run()}
-      //   className={editor.isActive("strike") ? "is-active" : ""}
-      // >
-      //   strike
-      // </button>
-      // <button
-      //   onClick={() => editor.chain().focus().toggleCode().run()}
-      //   disabled={!editor.can().chain().focus().toggleCode().run()}
-      //   className={editor.isActive("code") ? "is-active" : ""}
-      // >
-      //   code
-      // </button>
-      // <button onClick={() => editor.chain().focus().unsetAllMarks().run()}>
-      //   clear marks
-      // </button>
-      // <button onClick={() => editor.chain().focus().clearNodes().run()}>
-      //   clear nodes
-      // </button>
-      // <button
-      //   onClick={() => editor.chain().focus().setParagraph().run()}
-      //   className={editor.isActive("paragraph") ? "is-active" : ""}
-      // >
-      //   paragraph
-      // </button>
-      // <button
-      //   onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-      //   className={editor.isActive("heading", { level: 1 }) ? "is-active" : ""}
-      // >
-      //   h1
-      // </button>
-      // <button
-      //   onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-      //   className={editor.isActive("heading", { level: 2 }) ? "is-active" : ""}
-      // >
-      //   h2
-      // </button>
-      // <button
-      //   onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-      //   className={editor.isActive("heading", { level: 3 }) ? "is-active" : ""}
-      // >
-      //   h3
-      // </button>
-      // <button
-      //   onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
-      //   className={editor.isActive("heading", { level: 4 }) ? "is-active" : ""}
-      // >
-      //   h4
-      // </button>
-      // <button
-      //   onClick={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
-      //   className={editor.isActive("heading", { level: 5 }) ? "is-active" : ""}
-      // >
-      //   h5
-      // </button>
-      // <button
-      //   onClick={() => editor.chain().focus().toggleHeading({ level: 6 }).run()}
-      //   className={editor.isActive("heading", { level: 6 }) ? "is-active" : ""}
-      // >
-      //   h6
-      // </button>
-      // <button
-      //   onClick={() => editor.chain().focus().toggleBulletList().run()}
-      //   className={editor.isActive("bulletList") ? "is-active" : ""}
-      // >
-      //   bullet list
-      // </button>
-      // <button
-      //   onClick={() => editor.chain().focus().toggleOrderedList().run()}
-      //   className={editor.isActive("orderedList") ? "is-active" : ""}
-      // >
-      //   ordered list
-      // </button>
-      // <button
-      //   onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-      //   className={editor.isActive("codeBlock") ? "is-active" : ""}
-      // >
-      //   code block
-      // </button>
-      // <button
-      //   onClick={() => editor.chain().focus().toggleBlockquote().run()}
-      //   className={editor.isActive("blockquote") ? "is-active" : ""}
-      // >
-      //   blockquote
-      // </button>
-      // <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
-      //   horizontal rule
-      // </button>
-      // <button onClick={() => editor.chain().focus().setHardBreak().run()}>
-      //   hard break
-      // </button>
-      // <button
-      //   onClick={() => editor.chain().focus().undo().run()}
-      //   disabled={!editor.can().chain().focus().undo().run()}
-      // >
-      //   undo
-      // </button>
-      // <button
-      //   onClick={() => editor.chain().focus().redo().run()}
-      //   disabled={!editor.can().chain().focus().redo().run()}
-      // >
-      //   redo
-      // </button>
-      // <button
-      //   onClick={() => editor.chain().focus().setColor("#958DF1").run()}
-      //   className={
-      //     editor.isActive("textStyle", { color: "#958DF1" }) ? "is-active" : ""
-      //   }
-      // >
-      //   purple
-      // </button>
-      */}
-    </>
+      </button>
+      <button
+        onClick={() => editor.chain().focus().toggleItalic().run()}
+        disabled={!editor.can().chain().focus().toggleItalic().run()}
+        className={editor.isActive("italic") ? "is-active" : ""}
+      >
+        italic
+      </button>
+      <button
+        onClick={() => editor.chain().focus().toggleStrike().run()}
+        disabled={!editor.can().chain().focus().toggleStrike().run()}
+        className={editor.isActive("strike") ? "is-active" : ""}
+      >
+        strike
+      </button>
+      <button
+        onClick={() => editor.chain().focus().toggleCode().run()}
+        disabled={!editor.can().chain().focus().toggleCode().run()}
+        className={editor.isActive("code") ? "is-active" : ""}
+      >
+        code
+      </button>
+      <button onClick={() => editor.chain().focus().unsetAllMarks().run()}>
+        clear marks
+      </button>
+      <button onClick={() => editor.chain().focus().clearNodes().run()}>
+        clear nodes
+      </button>
+      <button
+        onClick={() => editor.chain().focus().setParagraph().run()}
+        className={editor.isActive("paragraph") ? "is-active" : ""}
+      >
+        paragraph
+      </button>
+      <button
+        onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+        className={editor.isActive("heading", { level: 1 }) ? "is-active" : ""}
+      >
+        h1
+      </button>
+      <button
+        onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+        className={editor.isActive("heading", { level: 2 }) ? "is-active" : ""}
+      >
+        h2
+      </button>
+      <button
+        onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+        className={editor.isActive("heading", { level: 3 }) ? "is-active" : ""}
+      >
+        h3
+      </button>
+      <button
+        onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
+        className={editor.isActive("heading", { level: 4 }) ? "is-active" : ""}
+      >
+        h4
+      </button>
+      <button
+        onClick={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
+        className={editor.isActive("heading", { level: 5 }) ? "is-active" : ""}
+      >
+        h5
+      </button>
+      <button
+        onClick={() => editor.chain().focus().toggleHeading({ level: 6 }).run()}
+        className={editor.isActive("heading", { level: 6 }) ? "is-active" : ""}
+      >
+        h6
+      </button>
+      <button
+        onClick={() => editor.chain().focus().toggleBulletList().run()}
+        className={editor.isActive("bulletList") ? "is-active" : ""}
+      >
+        bullet list
+      </button>
+      <button
+        onClick={() => editor.chain().focus().toggleOrderedList().run()}
+        className={editor.isActive("orderedList") ? "is-active" : ""}
+      >
+        ordered list
+      </button>
+      <button
+        onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+        className={editor.isActive("codeBlock") ? "is-active" : ""}
+      >
+        code block
+      </button>
+      <button
+        onClick={() => editor.chain().focus().toggleBlockquote().run()}
+        className={editor.isActive("blockquote") ? "is-active" : ""}
+      >
+        blockquote
+      </button>
+      <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
+        horizontal rule
+      </button>
+      <button onClick={() => editor.chain().focus().setHardBreak().run()}>
+        hard break
+      </button>
+      <button
+        onClick={() => editor.chain().focus().undo().run()}
+        disabled={!editor.can().chain().focus().undo().run()}
+      >
+        undo
+      </button>
+      <button
+        onClick={() => editor.chain().focus().redo().run()}
+        disabled={!editor.can().chain().focus().redo().run()}
+      >
+        redo
+      </button>
+      <button
+        onClick={() => editor.chain().focus().setColor("#958DF1").run()}
+        className={
+          editor.isActive("textStyle", { color: "#958DF1" }) ? "is-active" : ""
+        }
+      >
+        purple
+      </button>
+    </div>
   );
 };
 
@@ -212,7 +193,7 @@ const Editor = ({
       return;
     }
     if (current_note == null) {
-      if (!editor || !title) return null;
+      if (!editor || !title) return alert("Enter title");
       const note: NoteType = {
         title,
         id: String(Date.now() * 999),
@@ -257,12 +238,19 @@ const Editor = ({
 
   return (
     <>
-      <div className="max-w-full prose dark:prose-invert">
+      <div className="prose dark:prose-invert">
         <Button onClick={saveNotetoLocalStorage}>
           <Save className="mr-2 w-5 h-5" /> Save
         </Button>
-        {/* <EditorMenu editor={editor} /> */}
-        <EditorContent editor={editor} />
+        <MenuBar />
+        <EditorMenu editor={editor} />
+        <Small>Markdown Supported</Small>
+        <EditorContent
+          autoFocus
+          placeholder="Enter"
+          className="outline-1 outline-secondary-foreground min-h-64 outline"
+          editor={editor}
+        />
       </div>
     </>
   );

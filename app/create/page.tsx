@@ -10,7 +10,7 @@ const CreateNotePage = (props: Props) => {
     <div>
       <input
         placeholder="Untitled"
-        className="border-b-2 focus:outline-none text-xl"
+        className="border-b-2 mb-6 focus:outline-none text-xl"
         onChange={(e) =>
           setEditorState({ ...editorState, title: e.target.value })
         }

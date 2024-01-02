@@ -19,7 +19,15 @@ const LabelsPage = () => {
             arr.push(label);
           }
         });
-        setAllLabels(arr);
+        const seen: any = {};
+        const uniqueArray = arr.filter((item) => {
+          if (!seen[item]) {
+            seen[item] = true;
+            return true;
+          }
+          return false;
+        });
+        setAllLabels(uniqueArray);
       });
     }
   }, []);

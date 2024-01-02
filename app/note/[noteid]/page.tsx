@@ -1,7 +1,8 @@
 "use client";
 import { useAppSelector } from "@/app/redux/store";
 import Tiptap from "@/components/Tiptap";
-import { Heading1, Heading2, Heading3, Small } from "@/components/Typography";
+import { Heading1, Heading2, Small } from "@/components/Typography";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Edit, Save } from "lucide-react";
 import { useState } from "react";
@@ -28,19 +29,26 @@ const NotePage = ({ params }: { params: { noteid: string } }) => {
   return (
     <div className="">
       <div className="flex flex-col justify-start items-start">
-        <Heading2>{note.title}</Heading2>
+        <div className="flex gap-6 items-center">
+          <Heading2>{note.title}</Heading2>
+          {isEditing && <Badge variant={"secondary"}>Editing</Badge>}
+        </div>
+
         {!isEditing && (
           <Button
             disabled={isEditing}
             className="mb-12"
-            onClick={() => setIsEditing(!isEditing)}
+            onClick={() => {
+              //  document.getElementById("editor").focus();
+              setIsEditing(!isEditing);
+            }}
           >
             <Edit className="mr-2 w-5 h-5" /> <span>Edit</span>
           </Button>
         )}
       </div>
       {isEditing ? (
-        <div className="prose dark:prose-invert w-full">
+        <div className="prose dark:prose-invert">
           <Tiptap
             isEditing={isEditing}
             setIsEditing={setIsEditing}

@@ -4,7 +4,6 @@ import { Heading3, Paragraph } from "./Typography";
 import { useDispatch } from "react-redux";
 import { Card } from "./ui/card";
 import { convert } from "html-to-text";
-import { Button } from "./ui/button";
 import { ArchiveIcon, ColorWheelIcon, TrashIcon } from "@radix-ui/react-icons";
 import { AppDispatch } from "@/app/redux/store";
 import {
@@ -13,10 +12,31 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+
 import { removeNote, updateNote } from "@/app/redux/note-slice";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
+import { TagsIcon } from "lucide-react";
+import React, { useState } from "react";
+import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
+
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+type Checked = DropdownMenuCheckboxItemProps["checked"];
 
 type Props = {
   note: NoteType;
@@ -24,6 +44,10 @@ type Props = {
 
 const NoteCard = (props: Props) => {
   const dispatch = useDispatch<AppDispatch>();
+  const [label, setLabel] = useState<string[]>(props.note.labels);
+  const [showStatusBar, setShowStatusBar] = React.useState<Checked>(true);
+  const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false);
+  const [showPanel, setShowPanel] = React.useState<Checked>(false);
   const { theme } = useTheme();
   const router = useRouter();
   const textContent = convert(truncateText(props.note.text, 30));
@@ -67,7 +91,7 @@ const NoteCard = (props: Props) => {
           <span className="hover:underline">{props.note.title}</span>
         </Heading3>
       </Link>
-      <Paragraph className={"flex-grow"}>{textContent}</Paragraph>
+      <Paragraph className={"flex-grow break-words"}>{textContent}</Paragraph>
       <div className="mt-5 flex gap-3">
         <TooltipProvider delayDuration={900}>
           <Tooltip>
@@ -95,6 +119,106 @@ const NoteCard = (props: Props) => {
             </TooltipTrigger>
             <TooltipContent>
               <p>Delete note</p>
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger>
+              {/* <Popover>
+                <PopoverTrigger>
+                  <Button size={"icon"} variant={"ghost"}>
+                    <TagsIcon className="w-4 h-4" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent> */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button size={"icon"} variant={"ghost"}>
+                    <TagsIcon className="w-4 h-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56">
+                  <DropdownMenuLabel>Labels</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuCheckboxItem
+                    onClick={() => {
+                      const l = label;
+                      if (l.includes("java")) {
+                        const a = l.filter((item) => item !== "java");
+                        const note: NoteType = { ...props.note, labels: a };
+                        // [...new Set(arrayWithDuplicates)]
+                        dispatch(updateNote(note));
+                      } else {
+                        l.push("java");
+
+                        const uniqueArray: string[] = [];
+                        l.forEach((item) => {
+                          if (!uniqueArray.includes(item)) {
+                            uniqueArray.push(item);
+                          }
+                        });
+                        setLabel(uniqueArray);
+                        const note: NoteType = { ...props.note, labels: label };
+                        dispatch(updateNote(note));
+                      }
+                    }}
+                  >
+                    Java
+                  </DropdownMenuCheckboxItem>
+                  <DropdownMenuCheckboxItem
+                    onClick={() => {
+                      const l = label;
+                      if (l.includes("javascript")) {
+                        const a = l.filter((item) => item !== "javascript");
+                        const note: NoteType = { ...props.note, labels: a };
+                        dispatch(updateNote(note));
+                      } else {
+                        l.push("javascript");
+
+                        const uniqueArray: string[] = [];
+                        l.forEach((item) => {
+                          if (!uniqueArray.includes(item)) {
+                            uniqueArray.push(item);
+                          }
+                        });
+                        setLabel(uniqueArray);
+                        const note: NoteType = { ...props.note, labels: label };
+                        dispatch(updateNote(note));
+                      }
+                    }}
+                  >
+                    Javascript
+                  </DropdownMenuCheckboxItem>
+                  <DropdownMenuCheckboxItem
+                    onClick={() => {
+                      const l = label;
+                      if (l.includes("nextjs")) {
+                        const a = l.filter((item) => item !== "nextjs");
+                        const note: NoteType = { ...props.note, labels: a };
+                        dispatch(updateNote(note));
+                      } else {
+                        l.push("nextjs");
+
+                        const uniqueArray: string[] = [];
+                        l.forEach((item) => {
+                          if (!uniqueArray.includes(item)) {
+                            uniqueArray.push(item);
+                          }
+                        });
+                        setLabel(uniqueArray);
+                        const note: NoteType = { ...props.note, labels: label };
+                        dispatch(updateNote(note));
+                      }
+                    }}
+                  >
+                    Nextjs
+                  </DropdownMenuCheckboxItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              {/* </PopoverContent>
+              </Popover> */}
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Labels</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

@@ -12,7 +12,7 @@ import { useEditor } from "@tiptap/react";
 import { useDispatch } from "react-redux";
 import { useToast } from "@/components/ui/use-toast";
 import { AppDispatch } from "@/app/redux/store";
-import { addNote } from "@/app/redux/note-slice";
+import { addNote, createNote } from "@/app/redux/note-slice";
 import { Dispatch, SetStateAction } from "react";
 
 const MenuBar = () => {
@@ -192,44 +192,66 @@ const extensions = [
 
 const Editor = ({
   isEditing,
-  data,
+  title,
   setIsEditing,
   current_note,
 }: {
-  isEditing: boolean;
-  setIsEditing: Dispatch<SetStateAction<boolean>>;
-  data: string;
-  current_note: NoteType;
+  isEditing?: boolean;
+  title?: string;
+  setIsEditing?: Dispatch<SetStateAction<boolean>>;
+  current_note?: NoteType;
 }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { toast } = useToast();
   const editor = useEditor({
     extensions: [StarterKit],
-    content: data === undefined ? `` : data,
+    content: current_note?.text === undefined ? `` : current_note.text,
   });
   async function saveNotetoLocalStorage() {
     if (typeof window == "undefined") {
       return;
     }
-    if (!editor) return null;
-    const note = {
-      ...current_note,
-      text: editor.getHTML(),
-    };
-    try {
-      dispatch(addNote(note));
+    if (current_note == null) {
+      if (!editor || !title) return null;
+      const note: NoteType = {
+        title,
+        id: String(Date.now() * 999),
+        text: editor?.getHTML(),
+        labels: [],
+        isArchive: false,
+        color: { dark: "#eee", light: "#eee" },
+      };
+      dispatch(createNote(note));
       toast({
         title: "Saved...",
         variant: "default",
-        description: current_note.title,
+        description: note.title,
       });
-      setIsEditing(!isEditing);
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Couldn't Saved...",
-        description: current_note.title,
-      });
+    } else {
+      if (!editor) return null;
+      const note = {
+        ...current_note,
+        text: editor.getHTML(),
+      };
+      console.log(note);
+      try {
+        dispatch(addNote(note));
+        toast({
+          title: "Saved...",
+          variant: "default",
+          description: current_note.title,
+        });
+
+        if (isEditing && setIsEditing) {
+          setIsEditing(!isEditing);
+        }
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Couldn't Saved...",
+          description: current_note.title,
+        });
+      }
     }
   }
 

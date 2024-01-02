@@ -45,7 +45,6 @@ const NotePage = ({ params }: { params: { noteid: string } }) => {
             isEditing={isEditing}
             setIsEditing={setIsEditing}
             current_note={note}
-            data={note.text}
           />
         </div>
       ) : (

@@ -1,9 +1,12 @@
 "use client";
 import NoteCard from "@/components/NoteCard";
-import { Heading1, Muted, Small } from "@/components/Typography";
+import { Heading1, Muted } from "@/components/Typography";
 import { useEffect, useState } from "react";
 import { getLocalStorageItem } from "@/lib/utils";
 import { TypeWritter } from "@/public/assets/Illustration";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import Link from "next/link";
 
 const Home = () => {
   const [notes, setNotes] = useState<NoteType[]>([]);
@@ -15,7 +18,15 @@ const Home = () => {
 
   return (
     <div>
-      <Heading1>Home</Heading1>
+      <div className="flex justify-between items-center">
+        <Heading1>Home</Heading1>
+        <Link href={`/create`}>
+          <Button>
+            <Plus className="w-5 h-5 mr-2" />
+            New
+          </Button>
+        </Link>
+      </div>
       {notes.filter((note) => note.isArchive === false).length ? (
         <section className="mt-4 justify-items-stretch grid md:grid-cols-2 lg:grid-cols-3 gap-7">
           {notes

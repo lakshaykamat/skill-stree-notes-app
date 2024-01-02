@@ -15,7 +15,7 @@ export function truncateText(text: string, limit: number): string {
 
   return text;
 }
-export const getNoteById = (id: number) => {
+export const getNoteById = (id: string) => {
   return (
     getLocalStorageItem("noteData").find((note: NoteType) => note.id === id) ||
     null
@@ -34,7 +34,7 @@ export async function saveNote(editor: Editor | null, current_note: NoteType) {
     ...existingNotes.filter((note: NoteType) => note.id !== current_note.id),
     note,
   ];
-  setLocalStorageItem("noteData", updatedNotes);
+  return setLocalStorageItem("noteData", updatedNotes);
 }
 
 export const setLocalStorageItem = (key: string, value: any) => {

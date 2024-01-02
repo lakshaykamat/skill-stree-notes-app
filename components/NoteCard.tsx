@@ -1,14 +1,14 @@
 import { cn, truncateText } from "@/lib/utils";
-import { Paragraph } from "./Typography";
+import { Heading3, Paragraph } from "./Typography";
 import { Card } from "./ui/card";
 import { convert } from "html-to-text";
 
 const NoteCard = ({
   text,
-  date,
+  title,
   color,
 }: {
-  date: string;
+  title: string;
   text: string;
   color: { dark: string; light: string };
 }) => {
@@ -20,6 +20,7 @@ const NoteCard = ({
         `hover:bg-[${color.dark}] dark:bg-[${color.dark}] bg-[${color.light}]`
       )}
     >
+      <Heading3>{title}</Heading3>
       <Paragraph>{textContent}</Paragraph>
     </Card>
   );

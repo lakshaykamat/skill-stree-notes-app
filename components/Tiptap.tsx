@@ -11,11 +11,13 @@ import { Bold, Italic, Save } from "lucide-react";
 import { Button } from "./ui/button";
 import { useEditor } from "@tiptap/react";
 import EditorMenu from "./EditorMenu";
-import {
-  getLocalStorageItem,
-  saveNote,
-  setLocalStorageItem,
-} from "@/lib/utils";
+import { useDispatch } from "react-redux";
+import { useToast } from "@/components/ui/use-toast";
+
+import { saveNote } from "@/lib/utils";
+import { AppDispatch, useAppSelector } from "@/app/redux/store";
+import { addNote } from "@/app/redux/note-slice";
+import { Dispatch, SetStateAction } from "react";
 const MenuBar = () => {
   const { editor } = useCurrentEditor();
   console.log(editor);
@@ -193,22 +195,50 @@ const extensions = [
 ];
 
 export default ({
+  isEditing,
   data,
+  setIsEditing,
   current_note,
 }: {
+  isEditing: boolean;
+  setIsEditing: Dispatch<SetStateAction<boolean>>;
   data: string;
   current_note: NoteType;
 }) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { toast } = useToast();
   const editor = useEditor({
     extensions: [StarterKit],
     content: data === undefined ? `` : data,
   });
+  async function saveNotetoLocalStorage() {
+    if (!editor) return null;
+    const note = {
+      ...current_note,
+      text: editor.getHTML(),
+    };
+    try {
+      dispatch(addNote(note));
+      toast({
+        title: "Saved...",
+        variant: "default",
+        description: current_note.title,
+      });
+      setIsEditing(!isEditing);
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Couldn't Saved...",
+        description: current_note.title,
+      });
+    }
+  }
 
   return (
     <>
       <div className="max-w-full prose dark:prose-invert">
-        <Button onClick={() => saveNote(editor, current_note)}>
-          <Save className="mr-2 w-5 h-5" /> Save2
+        <Button onClick={saveNotetoLocalStorage}>
+          <Save className="mr-2 w-5 h-5" /> Save
         </Button>
         {/* <EditorMenu editor={editor} /> */}
         <EditorContent editor={editor} />

@@ -2,10 +2,17 @@
 import NoteCard from "@/components/NoteCard";
 import { Heading1 } from "@/components/Typography";
 import Link from "next/link";
-import { useAppSelector } from "./redux/store";
+import { useEffect, useState } from "react";
+import { getLocalStorageItem } from "@/lib/utils";
 
 const Home = () => {
-  const notes = useAppSelector((state) => state.noteReducer.notes);
+  const [notes, setNotes] = useState<NoteType[]>([]);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setNotes(getLocalStorageItem("noteData"));
+    }
+  }, []);
+
   return (
     <div>
       <Heading1>Home</Heading1>

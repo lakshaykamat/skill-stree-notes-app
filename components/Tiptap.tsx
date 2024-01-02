@@ -209,6 +209,9 @@ const Editor = ({
     content: data === undefined ? `` : data,
   });
   async function saveNotetoLocalStorage() {
+    if (typeof window == "undefined") {
+      return;
+    }
     if (!editor) return null;
     const note = {
       ...current_note,

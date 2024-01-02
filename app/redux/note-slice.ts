@@ -1,14 +1,16 @@
 "use client";
 import { NOTE_DATA } from "@/app/data";
 import { getLocalStorageItem, setLocalStorageItem } from "@/lib/utils";
-import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
-if (getLocalStorageItem("noteData") == null) {
-  console.log("Running");
-  setLocalStorageItem("noteData", NOTE_DATA);
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+if (typeof window !== "undefined") {
+  if (getLocalStorageItem("noteData") == null) {
+    setLocalStorageItem("noteData", NOTE_DATA);
+  }
 }
-console.log(localStorage.getItem("noteData"));
+
 const initialState: { notes: NoteType[] } = {
-  notes: getLocalStorageItem("noteData"),
+  notes: typeof window !== "undefined" && getLocalStorageItem("noteData"),
 };
 
 const reducerFunction = {
@@ -21,7 +23,7 @@ const reducerFunction = {
     );
 
     //updating local storage and global state
-    setLocalStorageItem("noteData", newArr);
+    typeof window !== "undefined" && setLocalStorageItem("noteData", newArr);
     state.notes = newArr;
   },
   removeNote: (state: any, action: PayloadAction<number | string>) =>

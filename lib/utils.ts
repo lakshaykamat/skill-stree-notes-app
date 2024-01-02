@@ -1,4 +1,3 @@
-"use client";
 import { Editor } from "@tiptap/react";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";

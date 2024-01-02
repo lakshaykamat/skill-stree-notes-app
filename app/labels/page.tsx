@@ -46,7 +46,7 @@ const LabelsPage = () => {
             </Heading2>
             <section className="mt-4 justify-items-stretch grid md:grid-cols-2 lg:grid-cols-3 gap-7">
               {filteredNotes.map((note) => {
-                return <NoteCard note={note} />;
+                return <NoteCard key={note.id} note={note} />;
               })}
             </section>
           </>

@@ -16,12 +16,13 @@ const ArhivePage = () => {
   return (
     <div>
       <Heading1>Archives</Heading1>
-      {notes.filter((note: NoteType) => note.isArchive === true).length > 0 ? (
+      {notes.filter((note: NoteType, i) => note.isArchive === true).length >
+      0 ? (
         <section className="mt-4 justify-items-stretch grid md:grid-cols-2 lg:grid-cols-3 gap-7">
           {notes
             .filter((note: NoteType) => note.isArchive === true)
             .map((note: NoteType) => (
-              <NoteCard note={note} />
+              <NoteCard key={note.id} note={note} />
             ))}
         </section>
       ) : (

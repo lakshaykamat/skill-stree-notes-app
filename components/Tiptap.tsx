@@ -17,7 +17,6 @@ import { Dispatch, SetStateAction } from "react";
 
 const MenuBar = () => {
   const { editor } = useCurrentEditor();
-  console.log(editor);
   if (!editor) {
     return null;
   }

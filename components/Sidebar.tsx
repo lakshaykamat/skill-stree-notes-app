@@ -5,9 +5,8 @@ import { usePathname } from "next/navigation";
 
 const Sidebar = () => {
   const path = usePathname();
-  console.log(path);
   return (
-    <div className="hidden sm:flex flex-col mt-6 pr-7 gap-6 w-1/3">
+    <div className="hidden md:flex flex-col mt-6 pr-7 gap-6 w-1/3">
       <Link href={`/`}>
         <div
           className={`p-4 flex gap-3 rounded-r-full ${

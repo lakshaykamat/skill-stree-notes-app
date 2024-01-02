@@ -32,7 +32,6 @@ const LabelsPage = () => {
       <Heading1>Labels</Heading1>
       {allLabels.map((label, index) => {
         const a = notes.filter((note) => note.labels.includes(label));
-        console.log(a);
         return (
           <>
             <Heading2 className="mt-6" key={`${index + label}`}>

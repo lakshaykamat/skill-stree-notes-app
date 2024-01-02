@@ -1,4 +1,4 @@
-import React from "react";
+"use client";
 import { Heading3 } from "./Typography";
 import { Input } from "./ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -13,10 +13,10 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-type Props = {};
-
-const Navbar = (props: Props) => {
+const Navbar = () => {
   return (
     <>
       <nav className="flex py-3 px-7 gap-6 justify-evenly items-center">
@@ -25,13 +25,7 @@ const Navbar = (props: Props) => {
             <Menu />
           </SheetTrigger>
           <SheetContent side={"left"}>
-            <SheetHeader>
-              <SheetTitle>Are you sure absolutely sure?</SheetTitle>
-              <SheetDescription>
-                This action cannot be undone. This will permanently delete your
-                account and remove your data from our servers.
-              </SheetDescription>
-            </SheetHeader>
+            <MobileSidebar />
           </SheetContent>
         </Sheet>
 
@@ -62,4 +56,44 @@ const Navbar = (props: Props) => {
   );
 };
 
+const MobileSidebar = () => {
+  const path = usePathname();
+  return (
+    <SheetHeader>
+      <SheetTitle className="text-xl mb-4 uppercase">Skill Street</SheetTitle>
+      <SheetDescription className="flex flex-col gap-6">
+        <Link
+          className={`${
+            path == "/"
+              ? "bg-primary text-primary-foreground"
+              : "bg-secondary text-secondary-foreground"
+          } rounded-md p-3`}
+          href={`/`}
+        >
+          Home
+        </Link>
+        <Link
+          className={`${
+            path == "/labels"
+              ? "bg-primary text-primary-foreground"
+              : "bg-secondary text-secondary-foreground"
+          } rounded-md p-3`}
+          href={`/labels`}
+        >
+          Labels
+        </Link>
+        <Link
+          className={`${
+            path == "/archives"
+              ? "bg-primary text-primary-foreground"
+              : "bg-secondary text-secondary-foreground"
+          } rounded-md p-3`}
+          href={`/archives`}
+        >
+          Archive
+        </Link>
+      </SheetDescription>
+    </SheetHeader>
+  );
+};
 export default Navbar;

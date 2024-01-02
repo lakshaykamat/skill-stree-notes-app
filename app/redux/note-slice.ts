@@ -26,10 +26,26 @@ const reducerFunction = {
     typeof window !== "undefined" && setLocalStorageItem("noteData", newArr);
     state.notes = newArr;
   },
-  removeNote: (state: any, action: PayloadAction<number | string>) =>
-    (state.notes = state.notes.filter(
+  removeNote: (state: any, action: PayloadAction<number | string>) => {
+    const updatedNotes = state.notes.filter(
       (note: NoteType) => note.id !== action.payload
-    )),
+    );
+    typeof window !== "undefined" &&
+      setLocalStorageItem("noteData", updatedNotes);
+    state.notes = updatedNotes;
+  },
+  updateNote: (state: any, action: PayloadAction<NoteType>) => {
+    const note = action.payload;
+
+    //Replacing the note with the previous one
+    const newArr = state.notes.map((obj: NoteType) =>
+      obj.id === note.id ? note : obj
+    );
+
+    //updating local storage and global state
+    typeof window !== "undefined" && setLocalStorageItem("noteData", newArr);
+    state.notes = newArr;
+  },
 };
 export const noteSlice = createSlice({
   name: "note",
@@ -37,8 +53,9 @@ export const noteSlice = createSlice({
   reducers: {
     addNote: reducerFunction.addNote,
     removeNote: reducerFunction.removeNote,
+    updateNote: reducerFunction.updateNote,
   },
 });
 
-export const { addNote, removeNote } = noteSlice.actions;
+export const { addNote, removeNote, updateNote } = noteSlice.actions;
 export default noteSlice.reducer;

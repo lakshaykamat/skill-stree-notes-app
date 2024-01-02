@@ -5,12 +5,16 @@ import { useState } from "react";
 type Props = {};
 
 const CreateNotePage = (props: Props) => {
-  const [editorState, setEditorState] = useState({ title: "", content: "" });
+  const [editorState, setEditorState] = useState({
+    title: "Untitled",
+    content: "",
+  });
   return (
     <div>
       <input
         placeholder="Untitled"
-        className="border-b-2 mb-6 focus:outline-none text-xl"
+        value={editorState.title}
+        className="border-b-2 mb-6 p-2 dark:bg-inherit focus:outline-none text-xl"
         onChange={(e) =>
           setEditorState({ ...editorState, title: e.target.value })
         }

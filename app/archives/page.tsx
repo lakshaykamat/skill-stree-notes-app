@@ -15,7 +15,7 @@ const ArhivePage = () => {
 
   return (
     <div>
-      <Heading1>Archives</Heading1>
+      <Heading1 className={"mb-6"}>Archives</Heading1>
       {notes.filter((note: NoteType, i) => note.isArchive === true).length >
       0 ? (
         <section className="mt-4 justify-items-stretch grid md:grid-cols-2 lg:grid-cols-3 gap-7">

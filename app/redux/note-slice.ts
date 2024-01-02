@@ -56,6 +56,14 @@ const reducerFunction = {
     typeof window !== "undefined" && setLocalStorageItem("noteData", newArr);
     state.notes = newArr;
   },
+  clearStore: (state: any) => {
+    typeof window !== "undefined" && setLocalStorageItem("noteData", []);
+    state.notes = [];
+  },
+  sampleData: (state: any) => {
+    typeof window !== "undefined" && setLocalStorageItem("noteData", NOTE_DATA);
+    state.notes = NOTE_DATA;
+  },
 };
 export const noteSlice = createSlice({
   name: "note",
@@ -65,9 +73,17 @@ export const noteSlice = createSlice({
     removeNote: reducerFunction.removeNote,
     updateNote: reducerFunction.updateNote,
     createNote: reducerFunction.createNote,
+    clearStore: reducerFunction.clearStore,
+    sampleData: reducerFunction.sampleData,
   },
 });
 
-export const { addNote, removeNote, updateNote, createNote } =
-  noteSlice.actions;
+export const {
+  addNote,
+  removeNote,
+  updateNote,
+  createNote,
+  clearStore,
+  sampleData,
+} = noteSlice.actions;
 export default noteSlice.reducer;

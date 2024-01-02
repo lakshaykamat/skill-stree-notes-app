@@ -34,7 +34,7 @@ const LabelsPage = () => {
 
   return (
     <div>
-      <Heading1>Labels</Heading1>
+      <Heading1 className={"mb-6"}>Labels</Heading1>
       {allLabels.map((label, index) => {
         const filteredNotes = notes.filter((note) =>
           note.labels.includes(label)

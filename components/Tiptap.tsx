@@ -16,6 +16,7 @@ import { addNote, createNote } from "@/app/redux/note-slice";
 import { Dispatch, SetStateAction } from "react";
 import EditorMenu from "./EditorMenu";
 import { Small } from "./Typography";
+import { generateUUID } from "@/lib/utils";
 
 const MenuBar = () => {
   const { editor } = useCurrentEditor();
@@ -196,7 +197,7 @@ const Editor = ({
       if (!editor || !title) return alert("Enter title");
       const note: NoteType = {
         title,
-        id: String(Date.now() * 999),
+        id: generateUUID(),
         text: editor?.getHTML(),
         labels: [],
         isArchive: false,

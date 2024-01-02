@@ -1,10 +1,12 @@
+import { generateUUID } from "@/lib/utils";
+
 export const NOTE_DATA: NoteType[] = [
   {
-    id: "06010bc8-2b70-4c95-ba0f-840672df2cda",
+    id: generateUUID(),
     title: "Java Programming Notes",
     isArchive: false,
     labels: ["java"],
-    color: { light: "#fed7aa", dark: "#9a3412" },
+    color: { light: "#bbf7d0", dark: "#4ade80" },
     text: `
     <h2>Introduction to Java</h2>
     <p>
@@ -38,11 +40,11 @@ public static void main(String[] args) {
 </footer>`,
   },
   {
-    id: "0704c636-687a-4f51-97e6-09204e1eb650",
+    id: generateUUID(),
     title: "Git and GitHub Notes",
     isArchive: true,
     labels: ["github"],
-    color: { light: "#fed7aa", dark: "#9a3412" },
+    color: { light: "#fef08a", dark: "#facc15" },
     text: `
     <h2>Introduction to Version Control</h2>
     <p>
@@ -94,5 +96,51 @@ git log
 <footer>
     <p>These are basic notes on Git and GitHub. Dive deeper into the world of version control to enhance your development workflow.</p>
 </footer>`,
+  },
+  {
+    id: generateUUID(),
+    title: "Software development lifecycle",
+    isArchive: false,
+    labels: ["SF+DLC"],
+    color: { light: "#fecaca", dark: "#f87171" },
+    text: `<div class="note">
+    <h2>Requirement Gathering and Analysis</h2>
+    <p>Understanding needs, gathering information, and defining functionalities.</p>
+  </div>
+
+  <div class="note">
+    <h2>Planning</h2>
+    <p>Defining project scope, creating a roadmap, and allocating resources.</p>
+  </div>
+
+  <div class="note">
+    <h2>Design</h2>
+    <p>Creating high-level architecture and system design based on requirements.</p>
+  </div>
+
+  <div class="note">
+    <h2>Implementation (Coding)</h2>
+    <p>Writing code according to design specifications using programming languages.</p>
+  </div>
+
+  <div class="note">
+    <h2>Testing</h2>
+    <p>Executing various tests to ensure software behaves as expected and fixing bugs.</p>
+  </div>
+
+  <div class="note">
+    <h2>Deployment</h2>
+    <p>Releasing the software for users and installing it in the production environment.</p>
+  </div>
+
+  <div class="note">
+    <h2>Maintenance</h2>
+    <p>Providing ongoing support, updates, and enhancements to the software.</p>
+  </div>
+
+  <div class="note">
+    <h2>Evaluation</h2>
+    <p>Assessing software performance, user feedback, and identifying areas for improvement.</p>
+  </div>`,
   },
 ];

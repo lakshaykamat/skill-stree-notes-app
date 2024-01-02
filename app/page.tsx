@@ -19,7 +19,7 @@ const Home = () => {
   return (
     <div>
       <div className="flex justify-between items-center">
-        <Heading1>Home</Heading1>
+        <Heading1 className={"mb-6"}>Home</Heading1>
         <Link href={`/create`}>
           <Button>
             <Plus className="w-5 h-5 mr-2" />
@@ -28,7 +28,7 @@ const Home = () => {
         </Link>
       </div>
       {notes.filter((note) => note.isArchive === false).length ? (
-        <section className="mt-4 justify-items-stretch grid md:grid-cols-2 lg:grid-cols-3 gap-7">
+        <section className="mt-4 grid md:grid-cols-2 lg:grid-cols-3 gap-7">
           {notes
             .filter((note) => note.isArchive === false)
             .map((note: NoteType) => (

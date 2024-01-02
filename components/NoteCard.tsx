@@ -4,7 +4,19 @@ import { Heading3, Paragraph } from "./Typography";
 import { useDispatch } from "react-redux";
 import { Card } from "./ui/card";
 import { convert } from "html-to-text";
-import { ArchiveIcon, ColorWheelIcon, TrashIcon } from "@radix-ui/react-icons";
+import { ArchiveIcon, TrashIcon } from "@radix-ui/react-icons";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+
 import { AppDispatch } from "@/app/redux/store";
 import {
   Tooltip,
@@ -12,11 +24,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 
 import { removeNote, updateNote } from "@/app/redux/note-slice";
 import Link from "next/link";
@@ -50,7 +57,7 @@ const NoteCard = (props: Props) => {
   const [showPanel, setShowPanel] = React.useState<Checked>(false);
   const { theme } = useTheme();
   const router = useRouter();
-  const textContent = convert(truncateText(props.note.text, 30));
+  const textContent = convert(props.note.text);
 
   //Archive Note
   const archiveNote = async () => {
@@ -84,14 +91,16 @@ const NoteCard = (props: Props) => {
         backgroundColor:
           theme == "dark" ? props.note.color.dark : props.note.color.light,
       }}
-      className={"transition-all p-4 flex flex-col"}
+      className={"transition-all p-4 flex flex-col dark:text-gray-800"}
     >
       <Link key={props.note.id} href={`/note/${props.note.id}`}>
         <Heading3>
           <span className="hover:underline">{props.note.title}</span>
         </Heading3>
       </Link>
-      <Paragraph className={"flex-grow break-words"}>{textContent}</Paragraph>
+      <Paragraph className={"flex-grow break-words"}>
+        {truncateText(textContent, 10)}
+      </Paragraph>
       <div className="mt-5 flex gap-3">
         <TooltipProvider delayDuration={900}>
           <Tooltip>
@@ -108,14 +117,34 @@ const NoteCard = (props: Props) => {
         <TooltipProvider delayDuration={900}>
           <Tooltip>
             <TooltipTrigger>
-              <Button
-                onClick={deleteNote}
-                size={"icon"}
-                variant={"ghost"}
-                className="hover:bg-destructive hover:text-destructive-foreground"
-              >
-                <TrashIcon className="w-4 h-4" />
-              </Button>
+              <AlertDialog>
+                <AlertDialogTrigger>
+                  <Button
+                    size={"icon"}
+                    variant={"ghost"}
+                    className="hover:bg-destructive hover:text-destructive-foreground"
+                  >
+                    <TrashIcon className="w-4 h-4" />
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Are you absolutely sure?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This action cannot be undone. This will permanently delete
+                      your note and you have to refresh the page for updation
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={deleteNote}>
+                      Continue
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </TooltipTrigger>
             <TooltipContent>
               <p>Delete note</p>

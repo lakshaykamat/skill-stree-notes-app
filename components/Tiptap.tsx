@@ -1,23 +1,20 @@
 "use client";
 import "./style.css";
-
 import { Color } from "@tiptap/extension-color";
 import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
-import { EditorContent, EditorProvider, useCurrentEditor } from "@tiptap/react";
+import { EditorContent, useCurrentEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Bold, Italic, Save } from "lucide-react";
 import { Button } from "./ui/button";
 import { useEditor } from "@tiptap/react";
-import EditorMenu from "./EditorMenu";
 import { useDispatch } from "react-redux";
 import { useToast } from "@/components/ui/use-toast";
-
-import { saveNote } from "@/lib/utils";
-import { AppDispatch, useAppSelector } from "@/app/redux/store";
+import { AppDispatch } from "@/app/redux/store";
 import { addNote } from "@/app/redux/note-slice";
 import { Dispatch, SetStateAction } from "react";
+
 const MenuBar = () => {
   const { editor } = useCurrentEditor();
   console.log(editor);
@@ -194,7 +191,7 @@ const extensions = [
   }),
 ];
 
-export default ({
+const Editor = ({
   isEditing,
   data,
   setIsEditing,
@@ -246,3 +243,4 @@ export default ({
     </>
   );
 };
+export default Editor;

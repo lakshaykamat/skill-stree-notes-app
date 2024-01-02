@@ -1,3 +1,4 @@
+"use client";
 import { NOTE_DATA } from "@/app/data";
 import { getLocalStorageItem, setLocalStorageItem } from "@/lib/utils";
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";

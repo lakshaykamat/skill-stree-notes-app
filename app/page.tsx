@@ -5,12 +5,12 @@ import { NOTE_DATA } from "./data";
 import Link from "next/link";
 import { getLocalStorageItem, setLocalStorageItem } from "@/lib/utils";
 
-type Props = {};
-
-const Home = (props: Props) => {
-  if (localStorage.length == 0) {
+const Home = () => {
+  //If not data in localstorage add default note data
+  if (getLocalStorageItem("noteData") == null) {
     setLocalStorageItem("noteData", NOTE_DATA);
   }
+  console.log(localStorage.length);
   return (
     <div>
       <Heading1>Home</Heading1>
